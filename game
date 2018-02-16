@@ -1,2 +1,3 @@
 #!/bin/bash
 sudo apt-get install nexuiz childsplay gcompris scorched3d prboom-plus doom-wad-shareware openarena teeworlds pingus hedgewars pangzero airstrike barrage
+sudo apt-get install games-fps games-toys games-platform games-programming games-racing  games-shootemup
