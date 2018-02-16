@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo apt-get install nexuiz childsplay gcompris scorched3d prboom-plus doom-wad-shareware openareana teeworlds pingus hedgewars pangzero 
+sudo apt-get install nexuiz childsplay gcompris scorched3d prboom-plus doom-wad-shareware openarena teeworlds pingus hedgewars pangzero 
