@@ -1,2 +1,3 @@
 #!/bin/bash
-sudo apt-get install lubuntu-desktop chromium-browser wine
+sudo apt-get -y install vim lubuntu-desktop chromium-browser wine
+sudo apt-get -y install uck mhddfs gnome-terminal
