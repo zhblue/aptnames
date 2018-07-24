@@ -1,5 +1,5 @@
 cd /etc/apt/sources.list.d/
 sudo wget https://raw.githubusercontent.com/zhblue/aptnames/master/deepin.list
 sudo apt-get update
-sudo apt-get -y install deepin.com.weixin.work
+sudo apt-get -y install deepin.com.wechat
 sudo apt-get -y install deepin.com.qq.im
