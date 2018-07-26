@@ -1,6 +1,6 @@
+#!/bin/bash
 cd /etc/apt/sources.list.d/
 sudo wget https://raw.githubusercontent.com/zhblue/aptnames/master/deepin.list
 sudo apt-get update
 sudo apt-get install deepin.com.wechat
 sudo apt-get install deepin.com.qq.im
-apt-cache search apps.com
