@@ -3,6 +3,7 @@ cd /etc/apt/sources.list.d/
 if [ ! -f deepin.list ] ; then
   sudo wget https://raw.githubusercontent.com/zhblue/aptnames/master/deepin.list
 fi
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 425956BB3E31DF51
 sudo apt-get update
 sudo apt-get install deepin.com.wechat
 sudo apt-get install deepin.com.qq.im
