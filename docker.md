@@ -1,5 +1,7 @@
 ## use docker for students to do experiment
 
+#### prepare files
+
 /bin/docker
 ```
 #!/bin/bash
@@ -32,9 +34,17 @@ RUN     sed -i 's/archive.ubuntu/mirrors.aliyun/g' /etc/apt/sources.list &&\
         g++ \
 ```
 
-build it
+#### build it
+
 ```
 apt-get install docker.io
 docker build -t hustoj .
 
 ```
+
+#### add user
+```
+sudo dockeradd linux tux123
+```
+*username is linux, password is tux123
+
