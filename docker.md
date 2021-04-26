@@ -2,7 +2,7 @@
 
 #### prepare files
 
-/bin/docker
+/bin/docker.sh
 ```
 #!/bin/bash
 /usr/bin/docker container run -it --rm hustoj
@@ -14,7 +14,7 @@
 if [ "$2" == "" ] ;then
   echo "Usage: $0 <USERNAME> <PASSWORD>"
 fi
-useradd -m -s /bin/docker -G docker $1
+useradd -m -s /bin/docker.sh -G docker $1
 echo "$2
 $2"|passwd $1
 ```
