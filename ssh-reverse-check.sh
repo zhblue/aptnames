@@ -1,4 +1,6 @@
 #!/bin/bash
+# add this into USER's crontab to check and relink the ssh reverse proxy tunnel
+
 USER=user
 DOMAIN=my.domain.com
 
