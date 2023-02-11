@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd /
 
 chmod 755  boot
