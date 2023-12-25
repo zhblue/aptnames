@@ -1,20 +1,8 @@
-<?php if(function_exists('exec')){
-           date_default_timezone_set("PRC");
-                $info=array();
-                   // system(" top -bn1 | grep \"Cpu\" | awk -F, '{print $4}' | awk '{print 100-$1}' ");
-                    exec  (" top -bn1 | grep \"Cpu\" | awk -F, '{print $4}' | awk '{print 100-$1}' ",$info);
-                    $info[count($info)-1]=floatval($info[count($info)-1]);
-                    exec(" free -m|grep Mem|awk '{print $7 }'",$info);
-                    $info[count($info)-1]=floatval($info[count($info)-1]);
-                    exec(" free -m|grep Swap|awk '{print $3 }'",$info);
-                    $info[count($info)-1]=floatval($info[count($info)-1]);
-                    exec(" netstat -s |grep 'connections established'|cut -d\  -f5",$info);
-                    $info[count($info)-1]=floatval($info[count($info)-1]);
-                    array_push($info,(time())*1000);
-                    exec("df -m|grep '/dev/vda3'|grep -v 'shm'|awk '{print $3 }'",$info);
-                    $info[count($info)-1]=floatval($info[count($info)-1]);
-                    exec("df -m|grep 'aliyun'|grep -v 'shm'|awk '{print $3} '",$info);
-                    $info[count($info)-1]=floatval($info[count($info)-1]);
+<?php
+
+                    $total_mem=1880;
+                    $total_swap=2048;
+                    $delay=2;
                     $logfile="/dev/shm/".basename(__FILE__,"php")."log";
                     $history=@file_get_contents($logfile);
                     if($history!=""){
@@ -22,21 +10,42 @@
                     }else{
                         $history=array();
                     }
-                    array_push($history,$info);
-                    while(count($history)>150) array_shift($history);
-                    file_put_contents($logfile,json_encode($history));
-                    $chart_cpu=array();
-                    $chart_mem=array();
-                    $chart_swap=array();
-                    $chart_tcp=array();
-                    $total_mem=1880;
-                    $total_swap=2048;
-                    foreach($history as $sample ){
-                        array_push($chart_cpu,array($sample[4],$sample[0]));
-                        array_push($chart_mem,array($sample[4],$sample[1]/$total_mem*100));
-                        array_push($chart_swap,array($sample[4],$sample[2]/$total_swap*100));
-                        array_push($chart_tcp,array($sample[4],$sample[3]/2));
-                    }
+if(function_exists('system')){
+           date_default_timezone_set("PRC");
+                if(isset($history[count($history)-1][4]) && $history[count($history)-1][4] <= (time()-$delay)*1000 ){
+                        $info=array();
+                           // system(" top -bn1 | grep \"Cpu\" | awk -F, '{print $4}' | awk '{print 100-$1}' ");
+                            exec(" top -bn1 | grep \"Cpu\" | awk -F, '{print $4}' | awk '{print 100-$1}' ",$info);
+                            $info[count($info)-1]=floatval($info[count($info)-1]);
+                            exec("free -m|grep Mem|awk '{print $7 }'",$info);
+                            $info[count($info)-1]=floatval($info[count($info)-1]);
+                            exec("free -m|grep Swap|awk '{print $3 }'",$info);
+                            $info[count($info)-1]=floatval($info[count($info)-1]);
+                            exec("netstat -s |grep 'connections established'|cut -d\  -f5",$info);
+                            $info[count($info)-1]=floatval($info[count($info)-1]);
+
+                            array_push($info,(time())*1000);
+
+                            exec("df -m|grep '/dev/vda3'|grep -v 'shm'|awk '{print $3 }'",$info);
+                            $info[count($info)-1]=floatval($info[count($info)-1]);
+                            exec("df -m|grep 'aliyun'|grep -v 'shm'|awk '{print $3} '",$info);
+                            $info[count($info)-1]=floatval($info[count($info)-1]);
+                            //echo json_encode($info);
+                            array_push($history,$info);
+                            while(count($history)>150) array_shift($history);
+                            file_put_contents($logfile,json_encode($history));
+                        //  echo json_encode($history);
+                }
+            $chart_cpu=array();
+            $chart_mem=array();
+            $chart_swap=array();
+            $chart_tcp=array();
+            foreach($history as $sample ){
+                array_push($chart_cpu,array($sample[4],$sample[0]));
+                array_push($chart_mem,array($sample[4],$sample[1]/$total_mem*100));
+                array_push($chart_swap,array($sample[4],$sample[2]/$total_swap*100));
+                array_push($chart_tcp,array($sample[4],$sample[3]/2));
+            }
                 if(isset($_GET['json'])){
                         echo json_encode(array($chart_cpu,$chart_mem,$chart_swap,$chart_tcp));
                         exit() ;
@@ -58,6 +67,7 @@
                     DISK:<span id="disk"><?php echo $info[5] ?></span>M  <br>
                     NAS :<span id="nas"><?php echo intval($info[6]/1024) ?></span>G  <br>
 </h1>
+        <script> //window.setTimeout("location.reload()",5000); </script>
         <script src="/include/jquery-latest.js" > </script>
         <script src="/include/jquery.flot.js" > </script>
         <div id="panel" style="width:100%;height:200px" onclick='update()'>no data</div>
@@ -71,9 +81,9 @@
                                 $.plot( $( "#panel" ), [ {
                                         label: "FREE",data: mem,lines: {show: true}
                                 }
-                                ,{      label: "CPU%",data: cpu,bars: {show: true}
+                                ,{      label: "CPU",data: cpu,bars: {show: true}
                                 }
-                                ,{      label: "TCPs",data: tcp,lines: {show: true}
+                                ,{      label: "TCP-pairs",data: tcp,lines: {show: true}
                                 }
                                 ,{      label: "SWAP",data: swap,lines: {show: true}
                                 }
@@ -99,12 +109,12 @@
 
                 }
                 $(document).ready(function (){
-                        window.setInterval("update()",2000);
+                        window.setInterval("update()",<?php echo $delay*1000 ?>);
                 });
         </script>
 
 <?php                  }
 
    } ?>
-<br><br><br><br><br><br><br>       <br>
+<br><br><br><br><br><br><br><a href="https://github.com/zhblue/aptnames/blob/master/probe.php" target="_blank" >Source code<br>
 </body>
