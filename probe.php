@@ -15,7 +15,7 @@
                     $info[count($info)-1]=floatval($info[count($info)-1]);
                     exec("df -m|grep 'aliyun'|grep -v 'shm'|awk '{print $3} '",$info);
                     $info[count($info)-1]=floatval($info[count($info)-1]);
-                    $logfile=basename(__FILE__,"php")."log";
+                    $logfile="/dev/shm/".basename(__FILE__,"php")."log";
                     $history=@file_get_contents($logfile);
                     if($history!=""){
                         $history=json_decode($history);
