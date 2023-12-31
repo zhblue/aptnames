@@ -68,8 +68,8 @@ if(function_exists('system')){
                     NAS :<span id="nas"><?php echo intval($info[6]/1024) ?></span>G  <br>
 </h1>
         <script> //window.setTimeout("location.reload()",5000); </script>
-        <script src="/include/jquery-latest.js" > </script>
-        <script src="/include/jquery.flot.js" > </script>
+        <script src="http://cdn.hustoj.com/include/jquery-latest.js" > </script>
+        <script src="http://cdn.hustoj.com/include/jquery.flot.js" > </script>
         <div id="panel" style="width:100%;height:200px" onclick='update()'>no data</div>
         <script type="text/javascript">
                 function update(){
