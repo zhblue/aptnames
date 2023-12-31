@@ -12,7 +12,7 @@
                     }
 if(function_exists('system')){
            date_default_timezone_set("PRC");
-                if(isset($history[count($history)-1][4]) && $history[count($history)-1][4] <= (time()-$delay)*1000 ){
+                if(count($history)==0 || (isset($history[count($history)-1][4]) && $history[count($history)-1][4] <= (time()-$delay)*1000 )){
                         $info=array();
                            // system(" top -bn1 | grep \"Cpu\" | awk -F, '{print $4}' | awk '{print 100-$1}' ");
                             exec(" top -bn1 | grep \"Cpu\" | awk -F, '{print $4}' | awk '{print 100-$1}' ",$info);
