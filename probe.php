@@ -1,7 +1,10 @@
 <?php
 
-                    $total_mem=1880;
-                    $total_swap=2048;
+                    $memory=array();
+                    exec("free -m|awk '{print $2 }'|tail -2",$memory);
+                    $total_mem=$memory[0];
+                    $total_swap=$memory[1];
+
                     $delay=2;
                     $logfile="/dev/shm/".basename(__FILE__,"php")."log";
                     $history=@file_get_contents($logfile);
